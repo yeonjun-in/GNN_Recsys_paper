@@ -27,15 +27,6 @@ def corrupt_fn(x):
     xtilde = x[shuffled_idx, :]
     return xtilde
 
-def preprocess_features(features):
-    """Row-normalize feature matrix and convert to tuple representation"""
-    rowsum = np.array(features.sum(1))
-    r_inv = np.power(rowsum, -1).flatten()
-    r_inv[np.isinf(r_inv)] = 0.
-    r_mat_inv = np.diag(r_inv)
-    features = r_mat_inv.dot(features)
-    return torch.FloatTensor(features)
-
 def get_A_mat(graph, config):
     A = np.zeros((graph.num_nodes(), graph.num_nodes()))
     for src, dst in zip(graph.edges()[0].numpy(), graph.edges()[1].numpy()):

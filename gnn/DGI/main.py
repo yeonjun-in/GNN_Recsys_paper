@@ -2,7 +2,7 @@ import numpy as np
 import torch 
 import torch.nn as nn
 from torch.random import seed
-from utils import load_data, corrupt_fn, AverageMeter, get_A_mat, preprocess_features, seed_everything
+from utils import load_data, corrupt_fn, AverageMeter, get_A_mat, seed_everything
 from model import DGI
 from sklearn.linear_model import LogisticRegression
 
@@ -13,14 +13,12 @@ class Config:
     epochs = 100
     device = 'cuda:1' if torch.cuda.is_available() else 'cpu'
 
-
 config = Config()
 
 graph, adj, x, y, train_mask, test_mask = load_data()
 config.input_dim = x.shape[1]
 label = torch.cat((torch.ones(x.size(0)), torch.zeros(x.size(0))))
 
-x = preprocess_features(x)
 adj = get_A_mat(graph, config)
 x = x.to(config.device)
 label = label.to(config.device)
